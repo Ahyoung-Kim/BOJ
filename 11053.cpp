@@ -1,42 +1,41 @@
 #include<iostream>
+#include<vector>
 #include<queue>
 #include<algorithm>
 #include<cstdlib>
-#include<vector>
+#include<cstring>
+#include<array>
+#include<cmath>
 
 using namespace std;
 
-#define buf 1000000009
-
-long long dp[10000001] = { 0, };
+vector<int> dp(1001, 1);
+int arr[1001];
 
 int main(void) {
 
-	int t, n;
+	ios::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
 
-	cin >> t;
+	int ans = 0;
+	int n;
 
-	dp[1] = 1;
-	dp[2] = 2;
-	dp[3] = 4;
+	cin >> n;
+	for (int i = 0; i < n; i++) {
+		cin >> arr[i];
+	}
 
-	while (t > 0) {
-
-		cin >> n;
-
-		if (dp[n] == 0) {
-			for (int i = 4; i <= n; i++) {
-				if (dp[n] != 0)
-					continue;
-
-				dp[i] = (dp[i - 1] + dp[i - 2] + dp[i - 3]) % buf;
+	for (int i = 0; i < n; i++) {
+		for (int j = 0; j < i; j++) {
+			if (arr[i] > arr[j]) {
+				dp[i] = max(dp[i], dp[j] + 1);
 			}
 		}
-
-		cout << dp[n] % buf << endl;
-
-		t--;
+		ans = max(ans, dp[i]);
 	}
+
+	cout << ans;
 
 	return 0;
 }
